@@ -1,16 +1,20 @@
 #include <iostream>
 using namespace std;
 
-// Lista ligada
+template <class T>
+using CmpFun = bool (*)(T, T);
+
+////////// Lista ligada
+template <class T>
 class List {
 private:
   class Node {
   public:
-    int data;
+    T data;
     Node *next;
 
   public:
-    Node(int d): data(d), next(nullptr) {}
+    Node(T d): data(d), next(nullptr) {}
   } *head;
 
   // Construtor
@@ -19,12 +23,14 @@ public:
 
   // Métodos
 public:
-  void insert(int data);          // Insere na frente da lista O(1)
+  void insert(T data);          // Insere na frente da lista O(1)
+  T search(T data, CmpFun<T> cmp); // Busca data na lista utilizando cmp (T -> T -> bool) a:T = b:T
   void print(void);
 };
 
 // Imprimir lista (debug)
-void List::print(void) {
+template <class T>
+void List<T>::print(void) {
   List::Node *n = List::head;
 
   while(n != nullptr) {
@@ -34,8 +40,18 @@ void List::print(void) {
 }
 
 // Inserção na lista. Inserção ocorre na cabeça da lista, portanto Theta(1)
-void List::insert(int data) {
+template <class T>
+void List<T>::insert(T data) {
   List::Node* n = new List::Node(data);
   n->next = head;
   List::head = n;
+}
+
+template <class T>
+T List<T>::search(T data, CmpFun<T> cmp) {
+  List::Node *n = List::head;
+
+  while (n != nullptr) {
+    if(cmp(n->data, data)) return n->data;
+  }
 }
