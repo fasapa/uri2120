@@ -6,3 +6,4 @@ EDPA 2020/1 Project
 ## `solution` directory
 Implementation of the solution in C++.
 - `base_solution.cpp`: solution using C++ STL.
+- `solution.cpp`: solution without C++ STL.
