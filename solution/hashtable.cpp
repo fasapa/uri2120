@@ -35,7 +35,7 @@ public:
 // Imprimir lista (debug)
 template <class T>
 void List<T>::print(void) {
-  List::Node *n = List::head;
+  auto n = List::head;
 
   while(n != nullptr) {
     cout << " " << n->data;
@@ -46,14 +46,14 @@ void List<T>::print(void) {
 // Inserção na lista. Inserção ocorre na cabeça da lista, portanto Theta(1)
 template <class T>
 void List<T>::insert(T data) {
-  List::Node* n = new List::Node(data);
+  auto n = new List::Node(data);
   n->next = head;
-  List::head = n;
+  head = n;
 }
 
 template <class T>
 bool List<T>::search(T data, CmpFun2<T> cmp, T *res) {
-  List::Node *n = List::head;
+  auto n = head;
 
   bool found = false;
   while (n != nullptr && !found) {
@@ -69,7 +69,7 @@ bool List<T>::search(T data, CmpFun2<T> cmp, T *res) {
 
 template <class T>
 bool List<T>::search(T data, T *res) {
-  List::Node *n = List::head;
+  auto *n = head;
 
   bool found = false;
   while (n != nullptr && !found) {
@@ -84,3 +84,48 @@ bool List<T>::search(T data, T *res) {
   return found;
 }
 
+////////// Tabela hash
+class HashTbl {
+private:
+  class HashEntry {
+  public:
+    int key;
+    int val;
+
+    // Construtores
+  public:
+    HashEntry(int k, int v): key(k), val(v) {};
+
+    // Métodos
+  public:
+    inline bool cmp(HashEntry a) { return key == a.key; }
+  };
+
+  int size;
+  List<HashEntry> *table;
+  inline int hash(int key) { return key % size; };
+
+  // Construtores
+public:
+  HashTbl(int s): size(s) { table = new List<HashEntry>[size]; };
+
+  // Métodos
+  void insert(int key, int val) { table[hash(key)].insert(HashEntry(key,val)); }
+  int lookup(int key);
+};
+
+// Retorna valor associado a chave. Caso não encontrar retorna -1.
+int HashTbl::lookup(int key) {
+  auto e = HashEntry(key,-1);
+  table[hash(key)].search(e, &e);
+  return e.val;
+}
+
+int main(void) {
+  auto t = HashTbl(10);
+  t.insert(1,2);
+  t.insert(2,3);
+  t.insert(3,4);
+
+  cout << t.lookup(2);
+}
