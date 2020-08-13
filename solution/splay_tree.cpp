@@ -8,8 +8,10 @@ class SplayTree {
     U key;
     Node *left, *right;
     Node *parent;
+    int count;
 
-    Node(U key) : key(key), left(nullptr), right(nullptr), parent(nullptr) {}
+    Node(U key) :
+      key(key), left(nullptr), right(nullptr), parent(nullptr), count(1) {}
     ~Node() {
       if (left != nullptr)
         delete left;
@@ -17,50 +19,96 @@ class SplayTree {
       if (right != nullptr)
         delete right;
     }
+
+    void copy(const Node<U>& node) {
+      this->key = node.key;
+      this->count = node.count;
+    }
   };
 
   Node<T> *root;
 
-  Node<T> *rotateLeft(Node<T> *node) {
+  bool isLeftChild(const Node<T> *const node) const {
+    assert(node->parent != nullptr);
+    return node->key < node->parent->key;
+  }
+
+  void rotateLeft(Node<T> *node) {
     auto q = node->right;
+    assert(q != nullptr);
     node->right = q->left;
+    if (q->left != nullptr)
+      q->left->parent = node;
     q->left = node;
-    q->parent = node->parent;
-    node->parent = q;
-    return q;
-  }
-
-  Node<T> *rotateRight(Node<T> *node) {
-    auto q = node->left;
-    node->left = q->right;
-    q->right = node;
-    q->parent = node->parent;
-    node->parent = q;
-    return q;
-  }
-
-  Node<T> *splay(Node<T> *node) {
-    if (node == nullptr)
-      return nullptr;
-
-    auto parent = node->parent;
-    if (parent == nullptr)
-      return node;
-
-    auto grandparent = parent->parent;
-
-    if (grandparent == nullptr) {
-      // zig operation
-      if (parent->left == node) {
-      }
-    } else {
-
+    if (node->parent != nullptr) {
+      if (isLeftChild(node))
+        node->parent->left = q;
+      else
+        node->parent->right = q;
     }
+    q->parent = node->parent;
+    node->parent = q;
   }
 
-  const Node<T> *minNode(const Node<T> *node) const {
+  void rotateRight(Node<T> *node) {
+    auto q = node->left;
+    assert(q != nullptr);
+    node->left = q->right;
+    if (q->right != nullptr)
+      q->right->parent = node;
+    q->right = node;
+    if (node->parent != nullptr) {
+      if (isLeftChild(node))
+        node->parent->left = q;
+      else
+        node->parent->right = q;
+    }
+    q->parent = node->parent;
+    node->parent = q;
+  }
+
+  void splay(Node<T> *node) {
+    if (node == nullptr) return;
+
+    while (node->parent != nullptr) {
+      // parent of node
+      auto p = node->parent;
+      // grandparent of node
+      auto g = p->parent;
+
+      if (g == nullptr) {
+        // zig operation
+        if (isLeftChild(node)) {
+          rotateRight(p);
+        } else {
+          rotateLeft(p);
+        }
+      } else if (isLeftChild(node) && isLeftChild(p)) {
+        // zig-zig operation
+        rotateRight(g);
+        rotateRight(p);
+      } else if (isLeftChild(node)) {
+        // zig-zag operation
+        rotateRight(p);
+        rotateLeft(g);
+      } else if (isLeftChild(p)) {
+        // zig-zag operation
+        rotateLeft(p);
+        rotateRight(g);
+      } else {
+        // zig-zig operation
+        rotateLeft(g);
+        rotateLeft(p);
+      }
+    }
+
+    // change root to node
+    root = node;
+  }
+
+  Node<T> *minNode(Node<T> *node) {
     assert(node != nullptr);
-    const Node<T> *parent = nullptr;
+    Node<T> *parent = nullptr;
     while (node != nullptr) {
       parent = node;
       node = node->left;
@@ -68,14 +116,24 @@ class SplayTree {
     return parent;
   }
 
-  const Node<T> *maxNode(Node<T> *node) const {
+  Node<T> *maxNode(Node<T> *node) {
     assert(node != nullptr);
-    const Node<T> *parent = nullptr;
+    Node<T> *parent = nullptr;
     while (node != nullptr) {
       parent = node;
       node = node->right;
     }
     return parent;
+  }
+
+  void printNode(Node<T> *node, int space = 0) const {
+    std::cout << std::string(space, ' ');
+    if (node == nullptr) std::cout << "X" << std::endl;
+    else {
+      std::cout << node->key << "(" << node->count << ")"<< std::endl;
+      printNode(node->left, space+1);
+      printNode(node->right, space+1);
+    }
   }
 
   public:
@@ -98,18 +156,27 @@ class SplayTree {
 
       if (key < node->key) {
         node = node->left;
-      } else {
+      } else if (node->key < key) {
         node = node->right;
+      } else {
+        // Key repeated, increase count
+        node->count++;
+        break;
       }
     }
 
-    if (key < parent->key) {
-      parent->left = new Node<T>(key);
-    } else {
-      parent->right = new Node<T>(key);
+    if (node == nullptr) {
+      node = new Node<T>(key);
+      node->parent = parent;
+
+      if (key < parent->key) {
+        parent->left = node;
+      } else {
+        parent->right = node;
+      }
     }
 
-    // TODO: splay parent
+    splay(node);
   }
 
   void erase(T key) {
@@ -121,6 +188,10 @@ class SplayTree {
       } else if (node->key < key) {
         parent = node;
         node = node->right;
+      } else if (node->count > 1) {
+        // More than one for this key, descrease count
+        node->count--;
+        node = nullptr;
       } else if (node->right == nullptr) {
         if (parent == nullptr) {
           root = node->left;
@@ -130,12 +201,16 @@ class SplayTree {
           parent->right = node->left;
         }
 
+        if (node->left != nullptr)
+          node->left->parent = parent;
+
         node->left = nullptr;
         delete node;
         node = nullptr;
       } else {
-        const Node<T> *tmp = minNode(node->right);
-        node->key = tmp->key;
+        Node<T> *tmp = minNode(node->right);
+        node->copy(*tmp);
+        tmp->count = 1;
 
         key = tmp->key; // change the key to delete
         parent = node;
@@ -143,25 +218,30 @@ class SplayTree {
       }
     }
 
-    // not found the key
     if (parent == nullptr) return;
 
-    // TODO: splay parent
+    splay(parent);
   }
 
-  T min() const {
+  T min() {
     auto node = minNode(root);
+    splay(node);
     return node->key;
   }
 
-  T max() const {
+  T max() {
     auto node = maxNode(root);
+    splay(node);
     return node->key;
+  }
+
+  void print() const {
+    printNode(root);
   }
 };
 
 int main() {
-  auto splayTree = new SplayTree<int>();
+  auto splayTree = SplayTree<int>();
 
   char op;
   while (std::cin >> op) {
@@ -171,21 +251,20 @@ int main() {
     switch (op) {
       case 'I':
         std::cin >> key;
-        splayTree->insert(key);
+        splayTree.insert(key);
         break;
       case 'D':
         std::cin >> key;
-        splayTree->erase(key);
+        splayTree.erase(key);
         break;
       case '0':
-        std::cout << splayTree->min() << std::endl;
+        std::cout << splayTree.min() << std::endl;
         break;
       case '9':
-        std::cout << splayTree->max() << std::endl;
+        std::cout << splayTree.max() << std::endl;
         break;
     }
   }
 
-  delete splayTree;
   return 0;
 }
