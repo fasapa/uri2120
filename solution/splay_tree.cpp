@@ -2,6 +2,15 @@
 #include <cassert>
 
 template <typename T>
+struct SearchResult {
+  bool found;
+  T value;
+
+  SearchResult() : found(false) {}
+  SearchResult(T value) : found(true), value(value) {}
+};
+
+template <typename T>
 class SplayTree {
   template <typename U>
   struct Node {
@@ -126,6 +135,16 @@ class SplayTree {
     return parent;
   }
 
+  void inorderNode(Node<T> *node) const {
+    if (node == nullptr) {
+      return;
+    }
+
+    inorderNode(node->left);
+    std::cout << " " << node->key;
+    inorderNode(node->right);
+  }
+
   void printNode(Node<T> *node, int space = 0) const {
     std::cout << std::string(space, ' ');
     if (node == nullptr) std::cout << "X" << std::endl;
@@ -235,8 +254,61 @@ class SplayTree {
     return node->key;
   }
 
+  void inorder() const {
+    inorderNode(root);
+    std::cout << std::endl;
+  }
+
   void print() const {
     printNode(root);
+  }
+
+  SearchResult<T> lowerBound(T key) const {
+    Node<T> *node = root, *bound = nullptr;
+    while (node != nullptr) {
+      if (node->key < key) {
+        node = node->right;
+      } else {
+        bound = node;
+        node = node->left;
+      }
+    }
+
+    if (bound == nullptr) {
+      return SearchResult<T>();
+    } else {
+      return SearchResult<T>(bound->key);
+    }
+  }
+
+  SearchResult<T> previous(T key) const {
+    Node<T> *node = root;
+    while (node != nullptr) {
+      if (key < node->key)
+        node = node->left;
+      else if (node->key < key)
+        node = node->right;
+      else break;
+    }
+
+    if (node == nullptr)
+      return SearchResult<T>();
+    else if (node->left != nullptr)
+      return SearchResult<T>(maxNode(node->left)->key);
+    else {
+      while (node->parent != nullptr && isLeftChild(node)) {
+        node = node->parent;
+      }
+
+      if (node->parent == nullptr)
+        return SearchResult<T>();
+      else
+        return SearchResult<T>(node->parent->key);
+    }
+  }
+
+  bool empty() const {
+    return root == nullptr;
   }
 };
 
@@ -262,6 +334,17 @@ int main() {
         break;
       case '9':
         std::cout << splayTree.max() << std::endl;
+        break;
+      case 'P':
+        splayTree.inorder();
+        break;
+      case 'L':
+        std::cin >> key;
+        auto lower = splayTree.lowerBound(key);
+        if (lower.found)
+          std::cout << lower.value << std::endl;
+        else
+          std::cout << "NOT FOUND" << std::endl;
         break;
     }
   }
