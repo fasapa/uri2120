@@ -297,11 +297,11 @@ class SplayTree {
 };
 //////////
 
-template <class T>
-using CmpFun2 = bool (*)(T, T);
+// template <class T>
+// using CmpFun2 = bool (*)(T, T);
 
-template <class T>
-using CmpFun1 = bool (*)(T);
+// template <class T>
+// using CmpFun1 = bool (*)(T);
 
 ////////// Lista ligada
 template <class T>
@@ -323,7 +323,7 @@ public:
   // Métodos
 public:
   void insert(T data);              // Insere na frente da lista O(1)
-  bool search(T data, CmpFun2<T> cmp, T *res); // Busca data na lista utilizando cmp (T -> T -> bool) a:T = b:T
+//  bool search(T data, CmpFun2<T> cmp, T *res); // Busca data na lista utilizando cmp (T -> T -> bool) a:T = b:T
   bool search(T data, T *res); // Busca utilizando T1.cmp(T2) => T1 = T2
   void print(void);
 };
@@ -347,21 +347,21 @@ void List<T>::insert(T data) {
   head = n;
 }
 
-template <class T>
-bool List<T>::search(T data, CmpFun2<T> cmp, T *res) {
-  auto n = head;
-
-  bool found = false;
-  while (n != nullptr && !found) {
-    if(cmp(n->data, data)) {
-      found = true;
-      *res = n->data;
-    } else {
-      n = n->next;
-    }
-  }
-  return found;
-}
+//template <class T>
+//bool List<T>::search(T data, CmpFun2<T> cmp, T *res) {
+//  auto n = head;
+//
+//  bool found = false;
+//  while (n != nullptr && !found) {
+//    if(cmp(n->data, data)) {
+//      found = true;
+//      *res = n->data;
+//    } else {
+//      n = n->next;
+//    }
+//  }
+//  return found;
+//}
 
 template <class T>
 bool List<T>::search(T data, T *res) {
