@@ -1,17 +1,36 @@
 \subsubsection{Hash table}
 \label{sec:hash}
 
-\usetikzlibrary{shapes.multipart,positioning,arrows,calc}
-\tikzset{
-  listnode/.style={
-    rectangle split,rectangle split parts=2,draw,rectangle split horizontal,fill=blue!20
-  },
-  startnode/.style={
-    draw,minimum width=1.5cm,minimum height=.75cm
-  }
-}
+Tabela \textit{hash}, ou embaralhamento, é uma estrutura de dado que permite
+associar uma \textit{key} (chave) a um valor. As principais características
+dessa estrutura de dados são: inserção e busca com complexidade O(1). Sua
+implementação utiliza uma matriz unidimensional de tamanho fixo.
+Para determinar a posição de inserção de uma chave $k$ na matriz utiliza-se
+uma função de embaralhamento (\textit{hash}).
 
-\begin{figure}
+A função \textit{hash} ($h: A \rightarrow \text{\texttt{int}}$) deve ser
+uniforme, ou seja, distribuir uniformemente as chaves do tipo $A$ entre os
+índices da matriz unidimensional, e possuir complexidade O(1).
+Não existe função de embaralhamento universalmente ideal, por isso cada tipo de
+dado ($A$) possui uma específica.
+
+Inevitavelmente, conflitos irão surgir ($\exists a~b: A,~ h(a) = h(b)~\text{com}
+~a \neq b$), por
+dois motivos: como comentado anteriormente a função de embaralhamento
+não é perfeita e a quantidade de dados inseridos é maior que a tabela. Uma forma
+de resolver conflitos é utilizar baldes (\textit{buckets}) para armazenar chaves
+com conflitos, através da uma lista ligada com inserção na cabeça da lista,
+como representado na figura~\ref{fig:hash}, dessa forma obtendo inserção O(1).
+Para garantirmos a segunda condição da tabela de embaralhamento (busca em O(1))
+dependemos da uniformidade da função \textit{hash} e do tamanho inicial da
+tabela, ou quantidade de baldes.
+
+Neste trabalho, os elementos da tabela são pares de números inteiros (\textit{key}:
+\texttt{int}, \textit{val}: \texttt{int}), portanto utilizamos a função módulo
+tamanho da tabela ($N$) como função de embaralhamento ($h(key) = key \text{\texttt{\%}} N$),
+o que garante uma distribuição relativamente uniforme das matrículas com complexidade O(1).
+
+\begin{figure}[!htb]
   \centering
   \begin{tikzpicture}[scale=.2, >=stealth]
     \node[startnode] (t0) {T[0]};

@@ -2,6 +2,7 @@
 
 \usepackage{sbc-template}
 \usepackage{graphicx,url}
+\usepackage{amsmath}
 \usepackage{amssymb}
 
 \usepackage[T1]{fontenc}
@@ -9,6 +10,15 @@
 \usepackage[brazil]{babel}
 
 \usepackage{tikz}
+\usetikzlibrary{shapes.multipart,positioning,arrows,calc}
+\tikzset{
+  listnode/.style={
+    rectangle split,rectangle split parts=2,draw,rectangle split horizontal,fill=blue!20
+  },
+  startnode/.style={
+    draw,minimum width=1.5cm,minimum height=.75cm
+  }
+}
 
 \sloppy
 
