@@ -11,6 +11,7 @@ para calcular os pais e altura dos alunos em realação a árvore binária de bu
 original.
 
 \begin{algorithm}[]
+  \small
   \caption{Cálcula o pai (tutor) de cada matrícula, modelando a sequência
     \textit{inorder} de uma árvore binária de busca utilizando uma árvore binárea
     balanceada.}\label{alg:parent}
@@ -112,3 +113,4 @@ subárvore de $upper$ então $upper$ é pai de $mat[i]$ (linhas 23--25), caso
 contrário, $lower$ é pai de $mat[i]$ (linhas 28--30). Ao final do algoritmo a
 tabela $parent$ possui os tutores de cada aluno.
 
+\subsubsection{Análise da complexidade}
