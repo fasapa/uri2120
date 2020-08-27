@@ -1,60 +1,60 @@
-\subsubsection{Hash table}
-\label{sec:hash}
+% \subsubsection{Hash table}
+% \label{sec:hash}
 
-Tabela \textit{hash}, ou embaralhamento, é uma estrutura de dado que permite
-associar uma \textit{key} (chave) a um valor. As principais características
-dessa estrutura de dados são: inserção e busca com complexidade O(1). Sua
-implementação utiliza uma matriz unidimensional de tamanho fixo.
-Para determinar a posição de inserção de uma chave $k$ na matriz utiliza-se
-uma função de embaralhamento (\textit{hash}).
+% Tabela \textit{hash}, ou embaralhamento, é uma estrutura de dado que permite
+% associar uma \textit{key} (chave) a um valor. As principais características
+% dessa estrutura de dados são: inserção e busca com complexidade O(1). Sua
+% implementação utiliza uma matriz unidimensional de tamanho fixo.
+% Para determinar a posição de inserção de uma chave $k$ na matriz utiliza-se
+% uma função de embaralhamento (\textit{hash}).
 
-A função \textit{hash} ($h: A \rightarrow \text{\texttt{int}}$) deve ser
-uniforme, ou seja, distribuir uniformemente as chaves do tipo $A$ entre os
-índices da matriz unidimensional, e possuir complexidade O(1).
-Não existe função de embaralhamento universalmente ideal, por isso cada tipo de
-dado ($A$) possui uma específica.
+% A função \textit{hash} ($h: A \rightarrow \text{\texttt{int}}$) deve ser
+% uniforme, ou seja, distribuir uniformemente as chaves do tipo $A$ entre os
+% índices da matriz unidimensional, e possuir complexidade O(1).
+% Não existe função de embaralhamento universalmente ideal, por isso cada tipo de
+% dado ($A$) possui uma específica.
 
-Inevitavelmente, conflitos irão surgir ($\exists a~b: A,~ h(a) = h(b)~\text{com}
-~a \neq b$), por
-dois motivos: como comentado anteriormente a função de embaralhamento
-não é perfeita e a quantidade de dados inseridos é maior que a tabela. Uma forma
-de resolver conflitos é utilizar baldes (\textit{buckets}) para armazenar chaves
-com conflitos, através da uma lista ligada com inserção na cabeça da lista,
-como representado na figura~\ref{fig:hash}, dessa forma obtendo inserção O(1).
-Para garantirmos a segunda condição da tabela de embaralhamento (busca em O(1))
-dependemos da uniformidade da função \textit{hash} e do tamanho inicial da
-tabela, ou quantidade de baldes.
+% Inevitavelmente, conflitos irão surgir ($\exists a~b: A,~ h(a) = h(b)~\text{com}
+% ~a \neq b$), por
+% dois motivos: como comentado anteriormente a função de embaralhamento
+% não é perfeita e a quantidade de dados inseridos é maior que a tabela. Uma forma
+% de resolver conflitos é utilizar baldes (\textit{buckets}) para armazenar chaves
+% com conflitos, através da uma lista ligada com inserção na cabeça da lista,
+% como representado na figura~\ref{fig:hash}, dessa forma obtendo inserção O(1).
+% Para garantirmos a segunda condição da tabela de embaralhamento (busca em O(1))
+% dependemos da uniformidade da função \textit{hash} e do tamanho inicial da
+% tabela, ou quantidade de baldes.
 
-Neste trabalho, os elementos da tabela são pares de números inteiros (\textit{key}:
-\texttt{int}, \textit{val}: \texttt{int}), portanto utilizamos a função módulo
-tamanho da tabela ($N$) como função de embaralhamento ($h(key) = key \text{\texttt{\%}} N$),
-o que garante uma distribuição relativamente uniforme das matrículas com complexidade O(1).
+% Neste trabalho, os elementos da tabela são pares de números inteiros (\textit{key}:
+% \texttt{int}, \textit{val}: \texttt{int}), portanto utilizamos a função módulo
+% tamanho da tabela ($N$) como função de embaralhamento ($h(key) = key \text{\texttt{\%}} N$),
+% o que garante uma distribuição relativamente uniforme das matrículas com complexidade O(1).
 
-\begin{figure}[!htb]
-  \centering
-  \begin{tikzpicture}[scale=.2, >=stealth]
-    \node[startnode] (t0) {T[0]};
-    \node[startnode,below=0pt of t0] (t1) {T[1]};
-    \node[startnode,below=0pt of t1] (t2) {T[2]};
-    \node[listnode,right=of t0] (3) {3};
-    \node[listnode,right=of t1] (1) {1};
-    \node[listnode,right=.5cm of 1] (7) {7};
-    \node[listnode,right=of t2] (2) {2};
-    \node[listnode,right=.5cm of 2] (5) {5};
-    \node[listnode,right=.5cm of 5] (8) {8};
-    \node[right=.5cm of 3] (3x) {$\varnothing$};
-    \node[right=.5cm of 7] (7x) {$\varnothing$};
-    \node[right=.5cm of 8] (8x) {$\varnothing$};
-    \draw[*->] let \p1 = (3.two), \p2 = (3.center) in (\x1,\y2) -- (3x);
-    \draw[*->] let \p1 = (1.two), \p2 = (1.center) in (\x1,\y2) -- (7);
-    \draw[*->] let \p1 = (7.two), \p2 = (7.center) in (\x1,\y2) -- (7x);
-    \draw[*->] let \p1 = (2.two), \p2 = (2.center) in (\x1,\y2) -- (5);
-    \draw[*->] let \p1 = (5.two), \p2 = (5.center) in (\x1,\y2) -- (8);
-    \draw[*->] let \p1 = (8.two), \p2 = (8.center) in (\x1,\y2) -- (8x);
-    \draw[->] (t0) edge (3) (t1) edge (1) (t2) edge (2);
-  \end{tikzpicture}
+% \begin{figure}[!htb]
+%   \centering
+%   \begin{tikzpicture}[scale=.2, >=stealth]
+%     \node[startnode] (t0) {T[0]};
+%     \node[startnode,below=0pt of t0] (t1) {T[1]};
+%     \node[startnode,below=0pt of t1] (t2) {T[2]};
+%     \node[listnode,right=of t0] (3) {3};
+%     \node[listnode,right=of t1] (1) {1};
+%     \node[listnode,right=.5cm of 1] (7) {7};
+%     \node[listnode,right=of t2] (2) {2};
+%     \node[listnode,right=.5cm of 2] (5) {5};
+%     \node[listnode,right=.5cm of 5] (8) {8};
+%     \node[right=.5cm of 3] (3x) {$\varnothing$};
+%     \node[right=.5cm of 7] (7x) {$\varnothing$};
+%     \node[right=.5cm of 8] (8x) {$\varnothing$};
+%     \draw[*->] let \p1 = (3.two), \p2 = (3.center) in (\x1,\y2) -- (3x);
+%     \draw[*->] let \p1 = (1.two), \p2 = (1.center) in (\x1,\y2) -- (7);
+%     \draw[*->] let \p1 = (7.two), \p2 = (7.center) in (\x1,\y2) -- (7x);
+%     \draw[*->] let \p1 = (2.two), \p2 = (2.center) in (\x1,\y2) -- (5);
+%     \draw[*->] let \p1 = (5.two), \p2 = (5.center) in (\x1,\y2) -- (8);
+%     \draw[*->] let \p1 = (8.two), \p2 = (8.center) in (\x1,\y2) -- (8x);
+%     \draw[->] (t0) edge (3) (t1) edge (1) (t2) edge (2);
+%   \end{tikzpicture}
 
-  \caption{Representação da tabela \textit{hash} com três \textit{buckets}
-    implementados utilizando listas ligadas.}
-  \label{fig:hash}
-\end{figure}
+%   \caption{Representação da tabela \textit{hash} com três \textit{buckets}
+%     implementados utilizando listas ligadas.}
+%   \label{fig:hash}
+% \end{figure}

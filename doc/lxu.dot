@@ -1,0 +1,53 @@
+graph "" {
+  subgraph cluster1 {
+    label="Caso 1.";
+    e1 [label=""];
+    e2 [label=""];
+    e3 [label=""];
+    // e4 [label=""];
+    // e5 [label=""];
+    x [label="mat[i]"];
+    e6 [label=""];
+    z [label="lower"];
+    y [label="upper"];
+    t1 [shape=triangle, label=""];
+    t2 [shape=triangle, label=""];
+    z -- t1;
+    t1 -- e1;
+    t1 -- e2
+    z -- t2;
+    t2 -- e3;
+    t2 -- y;
+    y -- x;
+    y -- e6;
+    // x -- e4;
+    // x -- e5;
+  }
+
+  subgraph cluster2 {
+    label="Caso 2."
+    z2 [label="lower"];
+    e21 [label=""];
+    e22 [label=""];
+    e23 [label=""];
+    e24 [label=""];
+    // e25 [label=""];
+    x2 [label="mat[i]"];
+    // e26 [label=""];
+    y2 [label="upper"];
+    t21 [shape=triangle, label=""];
+    t22 [shape=triangle, label=""];
+    y2 -- t21;
+    y2 -- t22;
+    t21 -- z2;
+    t21 -- e22;
+    z2 -- e21;
+    z2 -- x2;
+    t22 -- e23;
+    t22 -- e24;
+    // x2 -- e25;
+    // x2 -- e26;
+
+}
+
+}
