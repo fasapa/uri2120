@@ -1,59 +1,85 @@
 \subsection{Algoritmo} \label{sec:algo}
-\begin{algorithmic}[0]
-  \Procedure{Nome}{$mat[N]$}\Comment{Vetor de matrículas de tamanho $N$.}
-  \State $keys[N] \gets 0$\Comment{Vetor de chaves com tamanho $N$.}
-  \State $order \gets$ \Call{SplayTree}{ }
-  \State $parent \gets$ \Call{HashTable}{N}
-  \State $level \gets$ \Call{HashTable}{N}
+\begin{algorithm}[H]
+  \caption{Cálcula o pai (tutor) de cada matrícula, modelando uma árvore binárea
+  balanceada.}\label{alg:parent}
+  \begin{algorithmic}[0]
+    \Require $mat[N]$ vetor de matrículas de tamanho $N$; $parent$ tabela \textit{hash}.
+    \Procedure{Parents}{$mat[N], parent$}% \Comment{Vetor de matrículas de tamanho $N$.}
+    % \State $keys[N] \gets 0$\Comment{Vetor de chaves com tamanho $N$.}
+    \State $order \gets$ \Call{SplayTree}{ }
+    % \State $parent \gets$ \Call{HashTable}{N}
+    \State $level \gets$ \Call{HashTable}{N}
 
-  \Statex
-  \For{$i \gets 0, N$}
-  \State $keys[i] \gets mat[i]$
+    \Statex
+    \For{$i \gets 0, N$}
+    % \State $keys[i] \gets mat[i]$
 
-  \If{$order \neq \emptyset$}
-  \State $upper \gets$ \Call{LowerBound}{$order, mat[i]$}
-  \If{$upper$ not found}
-  \State $w \gets$ \Call{Max}{$order$} \Comment{Maior elemento de $order$.}
-  \State $l \gets$ \Call{LookUp}{$level, w+1$} \Comment{$l = level[w+1]$}
-  \State \Call{Insert}{$parent, mat[i], w$} \Comment{$parent[mat[i]] = w$}
-  \State \Call{Insert}{$level, mat[i], l$}
-  \ElsIf{$upper = $ \Call{Min}{$order$}} \Comment{Menor elemento de $order$}
-  \State $w \gets$ \Call{Min}{$order$}
-  \State $l \gets$ \Call{LookUp}{$level, w+1$}
-  \State \Call{Insert}{$parent, mat[i],w$}
-  \State \Call{Insert}{$level, mat[i],l$}
-  \Else
-  \State $y \gets upper$
-  \State $lower \gets$ \Call{Previous}{$order, y$} \Comment{Elemento anterior a
-    $y$ em $order$}
-  \State $z \gets lower$
-  \If{\Call{LookUp}{$level, y$} $>$ \Call{LookUp}{$level,z$}}
-  \State $l \gets$ \Call{LookUp}{$level, y$}
-  \State \Call{Insert}{$parent, mat[i], y$}
-  \State \Call{Insert}{$level, mat[i], l+1$}
-  \Else
-  \State $l \gets$ \Call{LookUp}{$level, z$}
-  \State \Call{Insert}{$parent, mat[i], z$}
-  \State \Call{Insert}{$level, mat[i], l+1$}
-  \EndIf
-  \EndIf
-  \EndIf
-  
-  \State \Call{Insert}{$order, mat[i]$}
-  \State $i \gets i + 1$
-  
-  \EndFor
-  \EndProcedure
+    \If{$order \neq \emptyset$}
+    \State $upper \gets$ \Call{LowerBound}{$order, mat[i]$}
+    \If{$upper$ not found}
+    \State // Matrículas são menores que $mat[i]$. Sequência ord.: $\ldots
+    W X$
+    \Statex
+    \State $w \gets$ \Call{Max}{$order$} \Comment{Maior elemento de $order$.}
+    \State $l \gets$ \Call{LookUp}{$level, w+1$} \Comment{$l = level[w+1]$}
+    \State \Call{Insert}{$parent, mat[i], w$} \Comment{$parent[mat[i]] = w$}
+    \State \Call{Insert}{$level, mat[i], l$}
+    \ElsIf{$upper = $ \Call{Min}{$order$}} \Comment{Menor elemento de $order$}
+    \State // Matrículas são maiores que $x$. Sequência ord.: $X W
+    \ldots$
+    \Statex
+    \State $w \gets$ \Call{Min}{$order$}
+    \State $l \gets$ \Call{LookUp}{$level, w+1$}
+    \State \Call{Insert}{$parent, mat[i],w$}
+    \State \Call{Insert}{$level, mat[i],l$}
+    \Else
+    \State $lower \gets$ \Call{Previous}{$order, upper$} \Comment{Elemento anterior em $order$}
+    \State // $lower$ e $upper$ estão no meio. Sequência ord.: $\ldots~ U ~
+    X ~ L ~\ldots$
+    \Statex
+    \State // $upper$ é o pai? $upper$ está na subárvore de $lower$?
+    \If{\Call{LookUp}{$level, upper$} $>$ \Call{LookUp}{$level, lower$}}
+    \State $l \gets$ \Call{LookUp}{$level, upper$}
+    \State \Call{Insert}{$parent, mat[i], upper$}
+    \State \Call{Insert}{$level, mat[i], l+1$}
+    \Else
+    \State // $lower$ é o pai? $lower$ está na subárvore de $upper$?
+    \State $l \gets$ \Call{LookUp}{$level, lower$}
+    \State \Call{Insert}{$parent, mat[i], lower$}
+    \State \Call{Insert}{$level, mat[i], l+1$}
+    \EndIf
+    \EndIf \Comment{$upper$ not found}
+    \EndIf \Comment{$order \neq \emptyset$}
+    
+    \State \Call{Insert}{$order, mat[i]$}
+    \State $i \gets i + 1$
+    
+    \EndFor
+    \EndProcedure
     % \Procedure{Euclid}{$a,b$}\Comment{The g.c.d. of a and b}
     % \State $r\gets a\bmod b$
     % \While{$r\not=0$}\Comment{We have the answer if r is 0}
-    %    \State $a\gets b$
-    %    \State $b\gets r$
-    %    \State $r\gets a\bmod b$
+    % \State $a\gets b$
+    % \State $b\gets r$
+    % \State $r\gets a\bmod b$
     % \EndWhile\label{euclidendwhile}
     % \State \textbf{return} $b$\Comment{The gcd is b}
     % \EndProcedure
-\end{algorithmic}
+  \end{algorithmic}
+\end{algorithm}
+
+\begin{algorithm}[H]
+  \caption{Obtém o tutor do aluno de matrícula $m$.}\label{alg:parent}
+  \begin{algorithmic}[0]
+    \Procedure{Tutor}{$m, mat[N]$}
+    \State $parent \gets$ \Call{HashTable}{N}
+    \State \Call{Parents}{$mat, parent$}
+    \State \textbf{return} \Call{LookUp}{$parent, mat[m-1]$}
+    \EndProcedure
+  \end{algorithmic}
+\end{algorithm}
+
+
 
 
 % \begin{algorithm}[H]
