@@ -1,12 +1,13 @@
 \section{Descrição do Problema (Tutores - URI 2120)} \label{sec:tutores}
-O problema Tutores\footnote{\url{https://www.urionlinejudge.com.br/judge/en/problems/view/2120}}
-consiste em dado uma ordem de inserções de matrículas (chaves) em uma Árvore
-Binária de Busca (ABB), deve ser respondido, para várias matrículas, qual a
-matrícula do nó pai do nó em que essa matrícula está, ou seja, seu tutor.
 
-Formalmente, dado uma ordem de inserção de matrículas $O = \{X_1, X_2, \cdots, X_n\}$ e
-uma ABB $T$ em que foram inseridas as matrículas $O$. Considere $p(X)$ como a matrícula
-do nó pai do nó em que a matrícula $X$ está em $T$. Para uma sequência $I = \{i_1, i_2, \cdots, i_m\}$,
+O problema Tutores\footnote{\url{https://www.urionlinejudge.com.br/judge/en/problems/view/2120}}
+consiste em dado uma ordem de inserções de chaves em uma Árvore
+Binária de Busca (ABB), deve ser respondido para várias chaves qual a chave do nó
+pai do nó em que essa chave está.
+
+Formalmente, dado uma ordem de inserção de chaves $O = \{X_1, X_2, \cdots, X_n\}$ e
+uma ABB $T$ em que foram inseridas as chaves $O$. Considere $p(X)$ como a chave
+do nó pai do nó em que a chave $X$ está em $T$. Para uma sequência $I = \{i_1, i_2, \cdots, i_m\}$,
 a solução deve apresentar uma sequência de resposta $Y = \{p(X_{i_1}), p(X_{i_2}), \cdots, p(X_{i_m})\}$.
 
 Por exemplo, suponhamos a ordem $\hat{O} = \{2, 4, 5, 6, 1\}$ e a sequência $\hat{I} = \{2, 3, 4\}$.
@@ -23,10 +24,18 @@ for tree={
     s sep=7mm
         }
 [2
-	[1]
+	[1
+		[$\emptyset$]
+		[$\emptyset$]
+	]
 	[4
+		[$\emptyset$]
 		[5
-			[6]
+			[$\emptyset$]
+			[6
+				[$\emptyset$]
+				[$\emptyset$]
+			]
 		]
 	]
 ]
