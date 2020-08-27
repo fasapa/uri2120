@@ -13,6 +13,7 @@ para calcular os pais e altura dos alunos em relação a ABB original.
 Como a árvore binária balanceada auxiliar foi escolhido utilizar a \textit{Splay Tree}, que não tem garantia de uma árvore com altura $O(\lg n)$, mas a complexidade amortizada de $O(m \lg n)$ para uma sequência de $m$ operações. Para guardar os pais e alturas dos alunos na ABB foi escolhido a \textit{Hash Table} com tratamento de colisão por encadeamento.
 
 \begin{algorithm}[]
+  \small
   \caption{Calcula o pai (tutor) de cada matrícula, modelando a sequência
     \textit{inorder} de uma Árvore Binária de Busca (ABB) utilizando uma árvore binária
     balanceada.}\label{alg:parent}
@@ -112,3 +113,5 @@ Nesse passo temos duas configurações possíveis, como pode ser visto
 na figura~\ref{fig:lxu}, portanto precisamos determinar quem está na subárvore
 de quem (linha 18) para escolher a configuração correta: se $upper$ está na subárvore de $lower$ (caso 1) então $upper$ é pai de $mat[i]$ (linhas 19--21), caso contrário (caso 2) $lower$ é pai de $mat[i]$ (linhas 23--25). Ao final do algoritmo a
 tabela $parent$ possui os tutores de cada aluno.
+
+\subsubsection{Análise da complexidade}
