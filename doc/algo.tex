@@ -12,7 +12,7 @@ para calcular os pais e altura dos alunos em relação a ABB original.
 
 Como a árvore binária balanceada auxiliar foi escolhido utilizar a \textit{Splay Tree}, que não tem garantia de uma árvore com altura $O(\lg n)$, mas a complexidade amortizada de $O(m \lg n)$ para uma sequência de $m$ operações. Para guardar os pais e alturas dos alunos na ABB foi escolhido a \textit{Hash Table} com tratamento de colisão por encadeamento.
 
-\begin{algorithm}[]
+\begin{algorithm}[H]
   \small
   \caption{Calcula o pai (tutor) de cada matrícula, modelando a sequência
     \textit{inorder} de uma Árvore Binária de Busca (ABB) utilizando uma árvore binária
@@ -123,8 +123,7 @@ a operação \textsc{Insert}($order$), utilizando análise amortizada, possui
 complexidade O($m \lg n$), para $m$ operações. Analogamente, por análise amortizada, a operação
 \textsc{LookUp}, de uma tabela \textit{hash} com tratamento de colisão por
 encademaneto, possui complexidade O(1). Com isso, os trechos 7--11, 12--15 e
-16--25 possuem complexidade O(1), então a cadeia de \textbf{if} (??? nome
-melhor, ou chama assim msm ???) entre 7--28 tem complexidade O(1). Concluímos,
+16--25 possuem complexidade O(1), então o bloco entre 7--28 tem complexidade O(1). Concluímos,
 portanto que a complexidade do algoritmo \textsc{Parents} é, pela aproximação de
 Stirling:
 \begin{align*}

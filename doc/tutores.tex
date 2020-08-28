@@ -5,10 +5,10 @@ consiste em dado uma ordem de inserções de chaves em uma Árvore
 Binária de Busca (ABB), deve ser respondido para várias chaves qual a chave do nó
 pai do nó em que essa chave está.
 
-Formalmente, dado uma ordem de inserção de chaves $O = \{X_1, X_2, \cdots, X_n\}$ e
+Formalmente, dado uma ordem de inserção de chaves $O = \{X_1, X_2, \ldots, X_n\}$ e
 uma ABB $T$ em que foram inseridas as chaves $O$. Considere $p(X)$ como a chave
-do nó pai do nó em que a chave $X$ está em $T$. Para uma sequência $I = \{i_1, i_2, \cdots, i_m\}$,
-a solução deve apresentar uma sequência de resposta $Y = \{p(X_{i_1}), p(X_{i_2}), \cdots, p(X_{i_m})\}$.
+do nó pai do nó em que a chave $X$ está em $T$. Para uma sequência $I = \{i_1, i_2, \ldots, i_m\}$,
+a solução deve apresentar uma sequência de resposta $Y = \{p(X_{i_1}), p(X_{i_2}), \ldots, p(X_{i_m})\}$.
 
 Por exemplo, suponhamos a ordem $\hat{O} = \{2, 4, 5, 6, 1\}$ e a sequência $\hat{I} = \{2, 3, 4\}$.
 A sequência de resposta é $Y = \{p(X_2 = 4) = 2, p(X_3 = 5) = 4, p(X_4 = 6) = 5\}$. Os valores
@@ -43,3 +43,11 @@ for tree={
 \caption{Árvore Binária de Busca $T$ gerada a partir da ordem de inserção de chaves $\hat{O}$}
 \label{fig:abb_exemplo}
 \end{figure}
+
+As restrições do problema são:
+\begin{itemize}
+\item Dado ordem de chaves $O = \{X_1, X_2, \ldots, X_n\}$, $1 \leq X_i \leq 10^9$ e $2 \leq n \leq 100000$.
+\item Seja $Q$ o número de perguntas, $1 \leq Q \leq 99999$.
+\end{itemize}
+
+O tempo limite de execução do problema é de 1 segundo. Logo, dado que o tamanho do problema (número de chaves) $n$ pode chegar a $10^5$ e considerando que a cada segundo são executadas aproximadamente $10^8$ operações, a solução deve ser $O(n \lg n)$ para executar no tempo correto.
