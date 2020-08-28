@@ -115,3 +115,19 @@ de quem (linha 18) para escolher a configuração correta: se $upper$ está na s
 tabela $parent$ possui os tutores de cada aluno.
 
 \subsubsection{Análise da complexidade}
+As operações \textsc{Max}, \textsc{Min}, \textsc{Previous},
+\textsc{Insert}($parent$) e \textsc{Insert}($level$), inserção em tabela
+\textit{hash}, possuem complexidade O(1), enquanto a operação
+\textsc{LowerBound} é O($\lg n$), em que $n$ é a quantidade de elementos na árvore. Como discutido na seção~\ref{sec:algo}
+a operação \textsc{Insert}($order$), utilizando análise amortizada, possui
+complexidade O($m \lg n$), para $m$ operações. Analogamente, por análise amortizada, a operação
+\textsc{LookUp}, de uma tabela \textit{hash} com tratamento de colisão por
+encademaneto, possui complexidade O(1). Com isso, os trechos 7--11, 12--15 e
+16--25 possuem complexidade O(1), então a cadeia de \textbf{if} (??? nome
+melhor, ou chama assim msm ???) entre 7--28 tem complexidade O(1). Concluímos,
+portanto que a complexidade do algoritmo \textsc{Parents} é, pela aproximação de
+Stirling:
+\begin{align*}
+  \sum_{i = 1}^{N}(\text{O}(\lg i) + \text{O}(1) + \text{O}(\lg i)) = \sum_{i = 1}^{N}(\text{O}(\lg i)) = \text{O}(\lg \prod_{i = 1}^{N} i) = \text{O}(\lg n!) \sim n \lg n
+      % ~\text{O}(n \lg n)
+\end{align*}
