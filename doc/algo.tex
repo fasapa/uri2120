@@ -103,12 +103,42 @@ Para o último caso teríamos sequência de formato: $(\ldots, lower, mat[i],
 upper, \ldots)$, em que $lower$ é a matrícula anterior a $upper$ em $order$
 (linha 17).
 \begin{figure}[!htb]
-  \centering
-  % dot -Gdpi=300 -Tpng test1.dot > test1.png
-  \includegraphics[width=0.7\linewidth]{lxu.png}
-  \caption{Se $mat[i]$ será inserido entre duas matrículas na sequência, existem dois casos para a estrutura da ABB.}
-  \label{fig:lxu}
+\centering
+% dot -Gdpi=300 -Tpng test1.dot > test1.png
+%\includegraphics[width=0.7\linewidth]{lxu.png}
+
+\begin{forest}
+[$lower$, ellipse
+	[$\cdots$, fit=band]
+	[$\cdots$, edge=dashed
+		[, phantom]
+		[$upper$, ellipse, edge=dashed
+			[{$mat[i]$}]
+			[$\cdots$, edge=dashed]
+		]
+	]
+]
+\node at (current bounding box.south)    [below=1ex,draw,rectangle]{Caso 1};
+\end{forest}
+\hspace{1em}
+\begin{forest}
+[$upper$, ellipse
+	[$\cdots$, edge=dashed
+		[$lower$, ellipse, edge=dashed
+			[$\cdots$, edge=dashed]
+			[{$mat[i]$}]
+		]
+		[, phantom]
+	]
+	[$\cdots$, fit=band]
+]
+\node at (current bounding box.south)    [below=1ex,draw,rectangle]{Caso 2};
+\end{forest}
+
+\caption{Se $mat[i]$ será inserido entre duas matrículas na sequência, existem dois casos para a estrutura da ABB.}
+\label{fig:lxu}
 \end{figure}
+
 Nesse passo temos duas configurações possíveis, como pode ser visto
 na figura~\ref{fig:lxu}, portanto precisamos determinar quem está na subárvore
 de quem (linha 18) para escolher a configuração correta: se $upper$ está na subárvore de $lower$ (caso 1) então $upper$ é pai de $mat[i]$ (linhas 19--21), caso contrário (caso 2) $lower$ é pai de $mat[i]$ (linhas 23--25). Ao final do algoritmo a

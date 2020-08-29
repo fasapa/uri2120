@@ -16,18 +16,23 @@
 \usepackage[utf8]{inputenc}  
 \usepackage[brazil]{babel}
 
+\usepackage{pgfplots}
+\usepackage{pgfplotstable}
+\pgfplotsset{compat=1.7}
+
 \usepackage{tikz}
-\usetikzlibrary{shapes.multipart,positioning,arrows,calc}
-\tikzset{
-  listnode/.style={
-    rectangle split,rectangle split parts=2,draw,rectangle split horizontal,fill=blue!20
-  },
-  startnode/.style={
-    draw,minimum width=1.5cm,minimum height=.75cm
-  }
-}
+%\usetikzlibrary{shapes.multipart,positioning,arrows,calc}
 
 \usepackage[edges]{forest} % draw trees
+\forestset{
+default preamble={
+	for tree={
+    	grow=south,
+	    circle, draw, minimum size=3ex, inner sep=1pt,
+    	s sep=7mm
+        } 
+	}
+}
 
 \sloppy
 
@@ -47,17 +52,9 @@
 %   10 lines and must be in the first page of the paper.
 % \end{abstract}
      
-\begin{resumo} 
-  No desenvolvimento de uma solução para associar tutores a alunos, Lucca
-  Siaudzionis fornece uma solução elegante: utilizar uma árvore binária de busca,
-  aonde os alunos são representado por nós e seus tutores são seus respectivos
-  pais na árvore. Entretanto, devido a problemas técnicos, reconstruir a mesma
-  torna-se impraticável, com complexidade de inserção na ordem O($n$).
-  Portanto, desenvolvemos um novo algoritmo, capaz de lidar com as demandas e limitações
-  temporais do problema, com o auxílio de uma árvore binária balançeada
-  auxiliar, com inserção de complexidade amortizada O($\lg n$). Permitindo a consulta aos
-  tutores sem a necessidade de armazenamento da árvore binária de busca. 
-\end{resumo}
+% \begin{resumo} 
+% Precisamos de resumo?
+% \end{resumo}
 
 \input{tutores}
 \section{Resultados} \label{sec:res}
