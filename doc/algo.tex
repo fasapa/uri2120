@@ -95,26 +95,26 @@ O algoritmo recebe uma lista de matrículas ($mat$) e uma tabela ($parent$) asso
 tutores vazia. Inicialmente definimos uma \textit{Splay Tree} ($order$), aonde
 serão feitas as inserções das matrículas, e outra tabela ($level$) associando a matrícula à
 altura na árvore original, linhas 2 e 3. Após a inicialização, percorremos todos
-os alunos (linha 4), simulando o percurso original (linhas 5--28) e finalmente
+os alunos (linha 4), simulando o percurso original (procedimento \textsc{ParentsInner}) e finalmente
 inserimos na árvore balanceada (linha 29).
 
-Entre as linhas 5--28 queremos
+Dentro do procedimento \textsc{ParentsInner} queremos
 encontrar qual posição da sequência a matrícula $i$ ($mat[i]$) encaixará,
-para isso procuramos (linha 6) pela menor matrícula ($upper$) tal que seja maior
+para isso procuramos (linha 2) pela menor matrícula ($upper$) tal que seja maior
 ou igual à matrícula $i$ ($mat[i]$) na árvore $order$. Caso a matrícula ($upper$) não
 exista, podemos concluir que nossa sequência terá o seguinte formato após inserção: $(\ldots,
 w,mat[i])$, ou seja $mat[i]$ é maior que todas as matrículas na ABB e filho de $w$. Assim obtemos o maior elemento da sequência ($w$ linha
-8) e a altura ($l$) na qual $mat[i]$ seria inserido na árvore (linha 9),
+4) e a altura ($l$) na qual $mat[i]$ seria inserido na árvore (linha 5),
 finalmente atualizamos as tabelas de pais e alturas com os novos dados de $mat[i]$
-(linhas 10--11). Caso a matrícula exista ($upper$) ela pode ser o primeiro
-elemento da sequência (linhas 12--15), isto é a menor matrícula, ou estar em qualquer posição no
-meio da sequência (linhas 16--27). Se $upper$ for o menor elemento da árvore
+(linhas 6--7). Caso a matrícula exista ($upper$) ela pode ser o primeiro
+elemento da sequência (linhas 8--11), isto é a menor matrícula, ou estar em qualquer posição no
+meio da sequência (linhas 12--23). Se $upper$ for o menor elemento da árvore
 $order$, a sequência terá formato: $(mat[i], w, \ldots)$, ou seja, $mat[i]$ é a
 menor matrícula na árvore original com pai $upper$. Analogamente, obtemos a altura ($l$) na qual
-$mat[i]$ seria inserido e atualizamos a tabela de pais e alturas (linhas 14--15).
+$mat[i]$ seria inserido e atualizamos a tabela de pais e alturas (linhas 10--11).
 Para o último caso teríamos sequência de formato: $(\ldots, lower, mat[i],
 upper, \ldots)$, em que $lower$ é a matrícula anterior a $upper$ em $order$
-(linha 17).
+(linha 13).
 \begin{figure}[!htb]
 \centering
 % dot -Gdpi=300 -Tpng test1.dot > test1.png
@@ -154,7 +154,7 @@ upper, \ldots)$, em que $lower$ é a matrícula anterior a $upper$ em $order$
 
 Nesse passo temos duas configurações possíveis, como pode ser visto
 na figura~\ref{fig:lxu}, portanto precisamos determinar quem está na subárvore
-de quem (linha 18) para escolher a configuração correta: se $upper$ está na subárvore de $lower$ (caso 1) então $upper$ é pai de $mat[i]$ (linhas 19--21), caso contrário (caso 2) $lower$ é pai de $mat[i]$ (linhas 23--25). Ao final do algoritmo a
+de quem (linha 14) para escolher a configuração correta: se $upper$ está na subárvore de $lower$ (caso 1) então $upper$ é pai de $mat[i]$ (linhas 15--17), caso contrário (caso 2) $lower$ é pai de $mat[i]$ (linhas 19--21). Ao final do algoritmo a
 tabela $parent$ possui os tutores de cada aluno.
 
 \subsubsection{Análise da complexidade}
@@ -165,8 +165,8 @@ As operações \textsc{Max}, \textsc{Min}, \textsc{Previous},
 a operação \textsc{Insert}($order$), utilizando análise amortizada, possui
 complexidade O($m \lg n$), para $m$ operações. Analogamente, por análise amortizada, a operação
 \textsc{LookUp}, de uma tabela \textit{hash} com tratamento de colisão por
-encademaneto, possui complexidade O(1). Com isso, os trechos 7--11, 12--15 e
-16--25 possuem complexidade O(1), então o bloco entre 7--28 tem complexidade O(1). Concluímos,
+encademaneto, possui complexidade O(1). Com isso, os trechos 3--7, 8--11 e
+12--21 possuem complexidade O(1), então o bloco entre 3--24 tem complexidade O(1). Concluímos,
 portanto que a complexidade do algoritmo \textsc{Parents} é, pela aproximação de
 Stirling:
 \begin{align*}
