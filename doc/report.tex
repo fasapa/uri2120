@@ -47,9 +47,17 @@
 %   10 lines and must be in the first page of the paper.
 % \end{abstract}
      
-% \begin{resumo} 
-% Precisamos de resumo?
-% \end{resumo}
+\begin{resumo} 
+  No desenvolvimento de uma solução para associar tutores a alunos Lucca
+  Siaudzionis fornece uma solução elegante: utilizar uma árvore binária de busca
+  aonde os alunos são representado por nós e seus tutores são seus respectivos
+  pais na árvore. Entretanto, devido a problemas técnicos, reconstruir a mesma
+  torna-se impraticável, com complexidade de inserção na ordem O($n$).
+  Desenvolvemos um novo algoritmo, capaz de lidar com as demandas e limitações
+  temporais do problema, com o auxílio de uma árvore binária balançeada
+  auxiliar, com inserção de complexidade O($\lg n$). Permitindo a consulta aos
+  tutores sem a necessidade de armazenamento da árvore binária de busca. 
+\end{resumo}
 
 \input{tutores}
 \section{Resultados} \label{sec:res}
