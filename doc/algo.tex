@@ -12,11 +12,10 @@ para calcular os pais e altura dos alunos em relação a ABB original.
 
 Como a árvore binária balanceada auxiliar foi escolhido utilizar a \textit{Splay Tree}, que não tem garantia de uma árvore com altura $O(\lg n)$, mas a complexidade amortizada de $O(m \lg n)$ para uma sequência de $m$ operações. Para guardar os pais e alturas dos alunos na ABB foi escolhido a \textit{Hash Table} com tratamento de colisão por encadeamento.
 
-\begin{algorithm}[H]
+\begin{algorithm}[ht]
   \small
-  \caption{Calcula o pai (tutor) de cada matrícula, modelando a sequência
-    \textit{inorder} de uma Árvore Binária de Busca (ABB) utilizando uma árvore binária
-    balanceada.}\label{alg:parent}
+  \caption{Calcula o pai (tutor) de cada matrícula, modelando a sequência \textit{inorder} de uma Árvore Binária de Busca (ABB) utilizando uma árvore binária balanceada.}
+  \label{alg:parent}
   \begin{algorithmic}[1]
     \Require $mat[N]$ vetor de matrículas de tamanho $N$; $parent$ tabela \textit{hash}.
     \Procedure{Parents}{$mat[N], parent$}% \Comment{Vetor de matrículas de tamanho $N$.}
@@ -30,6 +29,25 @@ Como a árvore binária balanceada auxiliar foi escolhido utilizar a \textit{Spl
     % \State $keys[i] \gets mat[i]$
 
     \If{$order \neq \emptyset$}
+    \State \Call{ParentsInner}{$mat$, $parent$, $order$, $level$}
+    \EndIf \Comment{$order \neq \emptyset$}
+    \Statex
+    
+    \State \Call{Insert}{$order, mat[i]$}
+    % \State $i \gets i + 1$
+    
+    \EndFor
+    \EndProcedure
+  \end{algorithmic}
+\end{algorithm}
+
+\begin{algorithm}[ht]
+  \small
+  \caption{Procedimento interno de \textsc{Parents}.}
+  \label{alg:parent_inner}
+  \begin{algorithmic}[1]
+    \Require $mat[N]$ vetor de matrículas de tamanho $N$; $parent$ tabela \textit{hash}.
+    \Procedure{ParentsInner}{$mat$, $parent$, $order$, $level$}
     \State $upper \gets$ \Call{LowerBound}{$order, mat[i]$}
     \Statex
     \If{$upper$ not found}
@@ -68,12 +86,7 @@ Como a árvore binária balanceada auxiliar foi escolhido utilizar a \textit{Spl
     \State \Call{Insert}{$level, mat[i], l+1$}
     \EndIf
     \EndIf \Comment{$upper$ not found}
-    \EndIf \Comment{$order \neq \emptyset$}
-    \Statex
-    \State \Call{Insert}{$order, mat[i]$}
-    % \State $i \gets i + 1$
     
-    \EndFor
     \EndProcedure
   \end{algorithmic}
 \end{algorithm}

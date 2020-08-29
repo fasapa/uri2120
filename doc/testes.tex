@@ -1,4 +1,6 @@
-\subsection{Testes}\label{sec:testes}
+\subsection{Casos de Teste}\label{sec:testes}
+Nessa seção demostraremos alguns exemplos de casos de teste do problema Tutores e qual o comportamento da \textit{Splay Tree} ao realizar a inserção das matrículas.
+
 \subsubsection{Exemplo de Caso de Teste 1}
 \begin{lstlisting}[frame=single,caption=Instância de teste 1,label=test1,escapeinside={\%*}{*)},inputencoding=utf8]
   3     // %*Número de estudantes*)
@@ -125,7 +127,7 @@
 \end{figure}
 
 \subsubsection{\textit{Benchmarks}}
-Testamos nossa solução com casos de diferentes de tamanhos. São dois tipos de casos em tamanhos de $10$ à $10^5$ com as chaves gerados uniformemente aleatórias:
+Com o objetivo de verificar o tempo de execução, testamos nossa solução com casos de diferentes de tamanhos. São dois tipos de casos em tamanhos de $10$ à $10^5$ com as chaves gerados uniformemente aleatórias:
 \begin{itemize}
 \item Matrículas em qualquer ordem (não ordenadas).
 \item Matrículas \textbf{ordenadas}.
@@ -165,3 +167,5 @@ Os tempos de execução estão descrito no gráfico da figura \ref{fig:benchmark
 \caption{Tempo de execução em milissegundos para os testes gerados.}
 \label{fig:benchmark}
 \end{figure}
+
+Se observa um tempo melhor para os casos em que as chaves são adicionadas em \textbf{ordem crescente}, o que pode ser explicado pois a cada inserção o último nó inserido vai estar na raiz da \textit{Splay Tree} (por característica da estrutura de dados) e como esse nó vai ser o pai do nó que está sendo inserido nesse momento, isso acelera a busca por ele.
