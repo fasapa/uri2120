@@ -1,0 +1,22 @@
+Projeto de EDPA 2020/1 - URI 2120
+
+Alunos:
+- Fabrício S. Paranhos
+- Leandro A. Vianna
+
+Problema:
+URI 2120 - https://www.urionlinejudge.com.br/judge/pt/problems/view/2120
+
+Diretórios
+- benchmarks: casos de teste utilizados para observar tempo de execução da solução.
+- doc: pasta com resumo expandido em Latex (report.tex).
+- src: códigos para a solução.
+- testcases: exemplos de casos de teste do problema.
+
+A solução completa que foi enviada ao URI está no arquivo src/solution.cpp
+Comando para compilar:
+make
+Comando para executar:
+./solution
+
+Resumo expandido do projeto está no arquivo resumo.pdf

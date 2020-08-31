@@ -6,11 +6,11 @@ estrutura para encontrar os tutores, que no pior caso, seria uma árvore
 binária degenerada com complexidade de inserção e busca $O(n)$.
 
 Observa-se que a ABB define uma sequência de matrículas
-relacionada a um determinado percurso e a estrutura da árvore. Nossa solução (algoritmo~\ref{alg:parent}) propõe 
+relacionada a um determinado percurso e a estrutura da árvore. Nossa solução (algoritmo~\ref{alg:parent} e \ref{alg:parent_inner}) propõe 
 modelar a mesma sequência, entretanto utilizando uma árvore binária balanceada auxiliar
 para calcular os pais e altura dos alunos em relação a ABB original.
 
-Como a árvore binária balanceada auxiliar foi escolhido utilizar a \textit{Splay Tree}, que não tem garantia de uma árvore com altura $O(\lg n)$, mas a complexidade amortizada de $O(m \lg n)$ para uma sequência de $m$ operações. Para guardar os pais e alturas dos alunos na ABB foi escolhido a \textit{Hash Table} com tratamento de colisão por encadeamento.
+Como a árvore binária balanceada auxiliar foi escolhido utilizar a \textit{Splay Tree}~\cite{splaytree}, que não tem garantia de uma árvore com altura $O(\lg n)$, mas tem a complexidade amortizada de $O(m \lg n)$ para uma sequência de $m$ operações. Para guardar os pais e alturas dos alunos na ABB foi escolhido a \textit{Hash Table}~\cite{cormen2009hashtable} com tratamento de colisão por encadeamento.
 
 \begin{algorithm}[ht]
   \small
@@ -158,18 +158,16 @@ de quem (linha 14) para escolher a configuração correta: se $upper$ está na s
 tabela $parent$ possui os tutores de cada aluno.
 
 \subsubsection{Análise da complexidade}
-As operações \textsc{Max}, \textsc{Min}, \textsc{Previous},
-\textsc{Insert}($parent$) e \textsc{Insert}($level$), inserção em tabela
-\textit{hash}, possuem complexidade O(1), enquanto a operação
-\textsc{LowerBound} é O($\lg n$), em que $n$ é a quantidade de elementos na árvore. Como discutido na seção~\ref{sec:algo}
-a operação \textsc{Insert}($order$), utilizando análise amortizada, possui
-complexidade O($m \lg n$), para $m$ operações. Analogamente, por análise amortizada, a operação
+As operações \textsc{Insert}($parent$) e \textsc{Insert}($level$), inserção em tabela
+\textit{hash}, possuem complexidade $O(1)$.
+Como discutido na seção~\ref{sec:algo}
+a operação \textsc{Max}, \textsc{Min}, \textsc{Insert}($order$), \textsc{LowerBound} e \textsc{Previous}, utilizando análise amortizada, possui
+complexidade $O(m \lg n)$ para $m$ operações, em que $n$ é a quantidade de elementos na árvore.  Analogamente, por análise amortizada, a operação
 \textsc{LookUp}, de uma tabela \textit{hash} com tratamento de colisão por
-encademaneto, possui complexidade O(1). Com isso, os trechos 3--7, 8--11 e
-12--21 possuem complexidade O(1), então o bloco entre 3--24 tem complexidade O(1). Concluímos,
-portanto que a complexidade do algoritmo \textsc{Parents} é, pela aproximação de
+encadeamento, possui complexidade $O(1)$. Com isso, os trechos 3--7, 8--11 e
+12--21 do algoritmo \ref{alg:parent_inner} possuem complexidade $O(\lg n)$, então o bloco entre 3--24 tem complexidade $O(\lg n)$. Concluímos que a complexidade do algoritmo \textsc{Parents} é, pela aproximação de
 Stirling:
 \begin{align*}
-  \sum_{i = 1}^{N}(\text{O}(\lg i) + \text{O}(1) + \text{O}(\lg i)) = \sum_{i = 1}^{N}(\text{O}(\lg i)) = \text{O}(\lg \prod_{i = 1}^{N} i) = \text{O}(\lg N!) \sim N \lg N
+  \sum_{i = 1}^{N}(\text{O}(\lg i) + \text{O}(\lg i) + \text{O}(\lg i)) = \sum_{i = 1}^{N}(\text{O}(\lg i)) = \text{O}(\lg \prod_{i = 1}^{N} i) = \text{O}(\lg N!) \sim N \lg N
       % ~\text{O}(n \lg n)
 \end{align*}
